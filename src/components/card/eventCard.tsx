@@ -4,7 +4,7 @@ import Dialogs from "@/components/dialog/dialog";
 import { Event } from "@/components/events/events";
 import { useToast } from "@/hooks/use-toast";
 import { Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface EventCardProps {
@@ -13,6 +13,7 @@ interface EventCardProps {
 }
 
 function EventCard({ event, setEvents }: EventCardProps) {
+  const router = useRouter();
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
@@ -46,13 +47,10 @@ function EventCard({ event, setEvents }: EventCardProps) {
             <p className="text-xs sm:text-lg">{event.time}</p>
           </div>
           <div className="flex gap-3">
-            <Link
-              href={{
-                pathname: `/edit-event/${event.id}`,
-              }}
-            >
-              <Pencil className="cursor-pointer" />
-            </Link>
+            <Pencil
+              className="cursor-pointer"
+              onClick={() => router.push(`/edit-event/${event.id}`)}
+            />
             <Trash2 className="cursor-pointer" onClick={() => setOpen(true)} />
             <Dialogs
               isOpen={open}
